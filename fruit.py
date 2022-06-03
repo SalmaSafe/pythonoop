@@ -19,4 +19,13 @@ class Student:
      return f"Hello { self.name} age {self.age} from {self.country } welcome to {self.school}"
     def full_name(self):
         return f"Hello {self.name} your full names are {self.firstName} {self.secondName}"
-        
+
+
+class Nincompoop:
+    def __init__(dave, age,name,year):
+        dave.age=age
+        dave.name=name
+        dave.year=year  
+    def about(dave): 
+        return f'your name is : {dave.name}' 
+              

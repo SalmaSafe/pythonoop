@@ -11,6 +11,8 @@ class Account:
         self.deposit_transact={}
         self.now=datetime.now()
         self.date=self.now.strftime('%d/%M/%Y')
+        self.statement=[]
+        self.loan=0
        
     def deposit(self,amount):
         if amount<=0:
@@ -56,7 +58,54 @@ class Account:
             print(statements)
     def current_balance(self):
         return self.account_balance
+
+    def full_Statement(self):
+        for transaction in self.statement:
+            amount = transaction["amount"]
+            Narration= transaction["Narration"]
+            time= transaction["time"]
+            date= time.strftime("%x/%X")
+            print(f"{date}:   {Narration}   {amount}")
+
+    def loaning(self,amount):    
+        item = len(self.deposits)
+        item_s = sum(self.deposits)
+        limit = item_s*(1/3)
+        amount+=(amount)*0.03 
+       
+        if amount<=100:
+            return "Sorry we can't give you this loan, your loan must be more than 100 "
+        elif self.loan>0:
+            return f"Dear customer you still have a loan of {self.loan}"
+        elif item<10:
+            return f"Your deposits must be atleast 10"
+
+        elif amount>=limit:
+            return f"Dear customer you can't borrow {amount}is higher than a limit of {self.account_balance}"
+
+        else:
+            self.loan+=amount
+            return f"Dear customer {self.full_name} your loan of ksh{amount} has been granted successfully" 
+
+    def loan_repay(self,amount): 
+        if amount<self.loan:
+            paying = self.loan-amount
+            return f"Dear customer you have paid {amount} and your loan balance is {paying}"
+        else:
+            over_pay = amount-self.loan
+            self.account_balance+=over_pay
+            return f"You succesfully completed paying your loan and the over pay is {over_pay} and your new balance is {self.account_balance}"                   
         
+    def transfer(self,amount,account):
+        fee= amount*0.05
+        Total=fee+amount
+        if amount<0:
+            return f"Dear customer {self.full_name} your amount is too low"
+        elif Total>self.balance:
+            return f"Dear customer {self.full_name} you balance is {self.account_balance} and you need atleast {Total}"
+        else:
+            self.account_balance-=Total
+            return f"Dear customer you  have sent {amount} to {account} and your new balance is {self.account_balance}"    
 #  Update the withdrawal method to store each withdrawal transaction as a dictionary like like this 
 # {
 #    "date": datetime object,

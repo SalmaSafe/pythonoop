@@ -1,6 +1,7 @@
 from datetime import datetime
 class Account:
     def __init__(self,full_name, number):
+
         self.full_name =full_name
         self.number =number
         self.account_balance=0
@@ -20,7 +21,7 @@ class Account:
         else:
             self.account_balance+=amount
             self.deposits.append({amount})
-            self.withdrawal_transact['date']=self.date
+            self.withdrawal_transact['date']=self.date # to add items to a dict you need a key and value
             self.withdrawal_transact['amount']=amount
             self.withdrawal_transact['narrations']=  "Confirmed, you have deposited", {amount}," Your new balance is", {self.account_balance}
 
@@ -89,26 +90,36 @@ class Account:
 
     def loan_repay(self,amount): 
         if amount<self.loan:
-            paying = self.loan-amount
+            self.loan-=amount
             return f"Dear customer you have paid {amount} and your loan balance is {paying}"
         else:
             over_pay = amount-self.loan
             self.account_balance+=over_pay
             return f"You succesfully completed paying your loan and the over pay is {over_pay} and your new balance is {self.account_balance}"                   
         
-    def transfer(self,amount,account):
-        fee= amount*0.05
-        Total=fee+amount
+    def transfer(self,amount,new_name):
+        # fee= amount*0.05
+        # Total=fee+amount
         if amount<0:
             return f"Dear customer {self.full_name} your amount is too low"
-        elif Total>self.balance:
+        elif amount>self.balance:
             return f"Dear customer {self.full_name} you balance is {self.account_balance} and you need atleast {Total}"
-        else:
-            self.account_balance-=Total
-            return f"Dear customer you  have sent {amount} to {account} and your new balance is {self.account_balance}"    
+        elif isinstance(new_name, Account):
+            self.account_balance-=amount
+            new_name.deposit(amount)
+            new_name.balance+=amount
+            return f"Dear customer you  have sent {amount} to {new} and your new balance is {account_balance}" 
+
+               
 #  Update the withdrawal method to store each withdrawal transaction as a dictionary like like this 
 # {
 #    "date": datetime object,
 #    "amount": amount,
 #    "narration": deposit or withdrawal
 # }
+
+#all this thing am having an issue with. They think I don't understand but its  the mode of teaching thats the issue
+#I literally love the language but the fact that they see me and feel i don't
+#know what am doing is the issue. If only they believed in me as I believe in me
+#maybe i'd be able to prove them wrong. But i seriously don't know how to go about that.
+ 
